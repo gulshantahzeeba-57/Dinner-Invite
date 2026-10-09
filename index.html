@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dinner at Papa's Kitchen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <main class="stage">
+
+    <!-- 1. Invitation -->
+    <section class="page active" id="p-invite">
+      <div class="icon"><i class="fa-solid fa-utensils"></i></div>
+      <h1>Will you join me for dinner at Papa's Kitchen?</h1>
+      <div class="btn-row" id="inviteButtons">
+        <button class="btn btn-yes" id="yesBtn">Yes</button>
+        <button class="btn btn-no" id="noBtn">No</button>
+      </div>
+    </section>
+
+    <!-- 2. Happy -->
+    <section class="page" id="p-happy">
+      <div class="icon big"><i class="fa-solid fa-champagne-glasses"></i></div>
+      <h1>You said yes. I'm really happy.</h1>
+      <p class="sub">It's going to be a good evening.</p>
+      <button class="btn btn-yes next" data-next="p-food">Okay okay</button>
+    </section>
+
+    <!-- 3. Food -->
+    <section class="page" id="p-food">
+      <h2>What should we eat?</h2>
+      <p class="sub">Choose at least 3. You can choose more.</p>
+      <div class="grid" id="foodGrid"></div>
+      <p class="hint" id="foodHint"></p>
+      <button class="btn btn-main next" id="foodNext" data-next="p-drinks" disabled>Next</button>
+    </section>
+
+    <!-- 4. Drinks -->
+    <section class="page" id="p-drinks">
+      <h2>What should we drink?</h2>
+      <p class="sub">Choose at least 2, or add your own.</p>
+      <div class="grid" id="drinkGrid"></div>
+      <div class="add-row">
+        <input type="text" id="drinkInput" placeholder="Add your own drink" maxlength="30">
+        <button class="btn btn-small btn-soft" id="drinkAdd"><i class="fa-solid fa-plus"></i> Add</button>
+      </div>
+      <p class="hint" id="drinkHint"></p>
+      <button class="btn btn-main next" id="drinkNext" data-next="p-when" disabled>Next</button>
+    </section>
+
+    <!-- 5. Date & time -->
+    <section class="page" id="p-when">
+      <h2>When works for you?</h2>
+      <p class="sub">Choose a date and a time.</p>
+      <div class="fields">
+        <label><span><i class="fa-regular fa-calendar"></i> Date</span><input type="date" id="dateInput"></label>
+        <label><span><i class="fa-regular fa-clock"></i> Time</span><input type="time" id="timeInput"></label>
+      </div>
+      <p class="hint" id="whenHint"></p>
+      <button class="btn btn-main next" id="whenNext" data-next="p-places" disabled>Next</button>
+    </section>
+
+    <!-- 6. Other places -->
+    <section class="page" id="p-places">
+      <h2>Anywhere else we should go?</h2>
+      <p class="sub">Choose at least 2, or add your own.</p>
+      <div class="grid" id="placeGrid"></div>
+      <div class="add-row">
+        <input type="text" id="placeInput" placeholder="Add a place" maxlength="30">
+        <button class="btn btn-small btn-soft" id="placeAdd"><i class="fa-solid fa-plus"></i> Add</button>
+      </div>
+      <p class="hint" id="placeHint"></p>
+      <button class="btn btn-main next" id="placeNext" data-next="p-funny1" disabled>Next</button>
+    </section>
+
+    <!-- 7. Funny 1: rules -->
+    <section class="page" id="p-funny1">
+      <div class="icon"><i class="fa-solid fa-scroll"></i></div>
+      <h2>A few ground rules</h2>
+      <ul class="rules">
+        <li><i class="fa-solid fa-circle-check"></i> Nobody steals fries without asking.</li>
+        <li><i class="fa-solid fa-circle-check"></i> Food photos come before the first bite.</li>
+        <li><i class="fa-solid fa-circle-check"></i> The last slice is decided by rock, paper, scissors.</li>
+        <li><i class="fa-solid fa-circle-check"></i> No talking about work or exams.</li>
+      </ul>
+      <button class="btn btn-main next" data-next="p-funny2">I accept</button>
+    </section>
+
+    <!-- 8. Funny 2: hunger meter -->
+    <section class="page" id="p-funny2">
+      <div class="icon"><i class="fa-solid fa-gauge-high"></i></div>
+      <h2>Checking your hunger level</h2>
+      <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+      <p class="sub" id="meterText">Starting…</p>
+      <button class="btn btn-main next" id="meterNext" data-next="p-funny3" disabled>Next</button>
+    </section>
+
+    <!-- 9. Funny 3: bill -->
+    <section class="page" id="p-funny3">
+      <div class="icon"><i class="fa-solid fa-receipt"></i></div>
+      <h2>Who's paying?</h2>
+      <p class="sub">Choose carefully.</p>
+      <div class="btn-row">
+        <button class="btn btn-yes" id="meBtn">Me</button>
+        <button class="btn btn-no" id="youBtn">You</button>
+      </div>
+      <p class="hint" id="payHint"></p>
+      <button class="btn btn-main next hidden" id="payNext" data-next="p-final">Next</button>
+    </section>
+
+    <!-- 10. Final -->
+    <section class="page" id="p-final">
+      <div class="icon big"><i class="fa-solid fa-car-side"></i></div>
+      <h1>All set. Are you ready? Let's go.</h1>
+      <div class="summary" id="summary"></div>
+      <button class="btn btn-yes" id="payBtn"><i class="fa-solid fa-credit-card"></i> Pay</button>
+      <p class="hint" id="payMsg"></p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
